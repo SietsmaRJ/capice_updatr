@@ -47,15 +47,19 @@ def merge_vep_variant_files(vep_dataframe: pd.DataFrame,
         Merged pandas dataframe of the VEP output with the added "clinsig",
         "review", "stars" and "binarized_label" columns to the vep_dataframe.
     """
-    vep_dataframe = vep_dataframe[vep_dataframe['%SYMBOL_SOURCE'] == 'HGNC']
-    vep_dataframe.drop_duplicates(inplace=True)
-    vep_dataframe['chr_pos_ref_alt'] = vep_dataframe[[
+    vep = vep_dataframe.copy(deep=True)
+    vep.drop(
+        index=vep[vep['%SYMBOL_SOURCE'] != 'HGNC'].index,
+        inplace=True
+    )
+    vep.drop_duplicates(inplace=True)
+    vep['chr_pos_ref_alt'] = vep[[
         '%CHROM', '%POS', '%REF', '%ALT'
     ]].astype(str).agg('_'.join, axis=1)
     variant_dataframe['chr_pos_ref_alt'] = variant_dataframe[[
         '#CHROM', 'POS', 'REF', 'ALT'
     ]].astype(str).agg('_'.join, axis=1)
-    merge = vep_dataframe.merge(variant_dataframe, on='chr_pos_ref_alt')
+    merge = vep.merge(variant_dataframe, on='chr_pos_ref_alt')
     merge.drop(
         columns=['chr_pos_ref_alt', '#CHROM', 'POS', 'REF', 'ALT'],
         inplace=True

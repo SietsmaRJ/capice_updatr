@@ -3,6 +3,7 @@
   <component name="NewModuleRootManager">
     <content url="file://$MODULE_DIR$">
       <excludeFolder url="file://$MODULE_DIR$/venv" />
+      <excludeFolder url="file://$MODULE_DIR$/processed_datafiles" />
     </content>
     <orderEntry type="jdk" jdkName="Python 3.9 (capice_updatr)" jdkType="Python SDK" />
     <orderEntry type="sourceFolder" forTests="false" />
