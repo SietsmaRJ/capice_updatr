@@ -25,7 +25,7 @@ def order_vcf(vcf):
     vcf['order'] = vcf['order'].astype(int)
     vcf.sort_values(by=['order', 'POS'], inplace=True)
     vcf.drop(columns='order', inplace=True)
-    vcf.index = range(0, vcf.shape[0])
+    vcf.reset_index(drop=True, inplace=True)
     return vcf
 
 
